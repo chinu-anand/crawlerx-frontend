@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 import { JOB_SUBMITTED_EVENT } from './JobForm'
 
 const JobList = ({ darkMode }) => {
+    const navigate = useNavigate();
     const [jobs, setJobs] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [connectionStatus, setConnectionStatus] = useState('connecting');
@@ -245,12 +247,16 @@ const JobList = ({ darkMode }) => {
                         </thead>
                         <tbody className={`divide-y ${darkMode ? 'divide-gray-700' : 'divide-gray-200'}`}>
                             {filteredJobs.map((job) => (
-                                <tr key={job.ID} className={darkMode ? 'hover:bg-gray-750' : 'hover:bg-gray-50'}>
+                                <tr 
+                                    key={job.ID} 
+                                    className={`${darkMode ? 'hover:bg-gray-750' : 'hover:bg-gray-50'} cursor-pointer`}
+                                    onClick={() => navigate(`/jobs/${job.ID}`)}>
+                                    
                                     <td className={`whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium ${darkMode ? 'text-gray-200' : 'text-gray-900'} sm:pl-6`}>
                                         <span className="font-mono">{job.ID.slice(0, 8)}</span>
                                     </td>
                                     <td className={`whitespace-nowrap px-3 py-4 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                        <div className="flex items-center">
+                                        <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
                                             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mr-1.5 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                             </svg>
@@ -278,7 +284,7 @@ const JobList = ({ darkMode }) => {
                                         </span>
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                        <div className="flex space-x-2">
+                                        <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
                                             <a
                                                 className={`inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded ${darkMode ? 'bg-blue-900/30 text-blue-300 hover:bg-blue-800/50' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'}`}
                                                 href={`/jobs/export/${job.ID}?format=json`}
