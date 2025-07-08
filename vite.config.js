@@ -8,27 +8,27 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/v1': {
-        target: 'http://localhost:8080',
+        target: import.meta.env.VITE_API_URL,
         changeOrigin: true,
         ws: true,
       },
       "/crawl": {
-        target: "http://localhost:8080",
+        target: import.meta.env.VITE_API_URL,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/crawl/, '/api/v1/crawl')
       },
       "/jobs": {
-        target: "http://localhost:8080",
+        target: import.meta.env.VITE_API_URL,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/jobs/, '/api/v1/jobs')
       },
       "/status": {
-        target: "http://localhost:8080",
+        target: import.meta.env.VITE_API_URL,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/status/, '/api/v1/status')
       },
       "/ws": {
-        target: "http://localhost:8080",
+        target: import.meta.env.VITE_API_URL,
         ws: true,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/ws/, '/api/v1/ws')
